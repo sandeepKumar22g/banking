@@ -9,12 +9,9 @@ import { useForm } from "react-hook-form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import CustomInput from './CustomInput'
 
-const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-})
+
 
 const AuthForm = ({ type }: { type: string }) => {
     const [user, setUser] = useState()
@@ -22,7 +19,7 @@ const AuthForm = ({ type }: { type: string }) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            email: "",
         },
     })
 
@@ -61,20 +58,23 @@ const AuthForm = ({ type }: { type: string }) => {
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                             <FormField
                                 control={form.control}
-                                name="username"
+                                name="email"
                                 render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Username</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="shadcn" {...field} />
-                                        </FormControl>
-                                        <FormDescription>
-                                            This is your public display name.
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
+                                    <div className='form-item'>
+                                        <FormLabel className='form-label'>
+                                            Email
+                                        </FormLabel>
+                                        <div className='flex w-full flex-col'>
+                                            <FormControl>
+                                                <Input placeholder='Enter your email' className='input-class' {...field} />
+                                            </FormControl>
+                                            <FormMessage className='form-message mt-2' />
+                                        </div>
+                                    </div>
                                 )}
                             />
+                            <CustomInput control={form.control} name={"UserName"} label={"Username"} placeholder={"Enter your username"}  />
+                            <CustomInput control={form.control} name={"Password"} label={"Password"} placeholder={"Enter your password"}  />
                             <Button type="submit">Submit</Button>
                         </form>
                     </Form>
