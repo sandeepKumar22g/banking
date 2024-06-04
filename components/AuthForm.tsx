@@ -12,10 +12,12 @@ import { Button } from '@/components/ui/button'
 import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/router'
 
 
 
 const AuthForm = ({ type }: { type: string }) => {
+    const router = useRouter();
     const [user, setUser] = useState()
     const [isLoading, setIsLoading] = useState(false)
 
@@ -30,20 +32,48 @@ const AuthForm = ({ type }: { type: string }) => {
     })
 
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         setIsLoading(true)
 
         try {
-            
+            // sign up with app write & plain link
+
+            if(type === "sign-up"){
+                const userData = {
+                    firstName: data.firstName!,
+                    lastName: data.lastName!,
+                    address1: data.address1!,
+                    city: data.city!,
+                    state: data.state!,
+                    postalCode: data.postalCode!,
+                    dateOfBirth: data.dateOfBirth!,
+                    ssn: data.ssn!,
+                    email: data.email,
+                    password: data.password
+                }
+
+                // const newUser = await signUp(userData)
+
+                // setUser(newUser)
+            }
+
+            if(type === "sign-in"){
+                // const response = await signIn({
+                //     email: data.email,
+                //     password: data.password,
+                // })
+        
+                // if(response) router.push('/')
+            }
+
+
         } catch (error) {
-            
+            console.log(error)
+        } finally{
+            setIsLoading(false)
         }
-
-
-        console.log(values)
-        setIsLoading(false)
     }
 
 
