@@ -13,6 +13,7 @@ import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/router'
+import { signIn, signUp } from '@/lib/actions/users.actions'
 
 
 
@@ -54,7 +55,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     password: data.password
                 }
 
-                // const newUser = await signUp(userData)
+                const newUser = await signUp(userData)
 
                 // setUser(newUser)
             }

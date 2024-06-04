@@ -1,0 +1,18 @@
+"use server";
+
+export const signIn = async () =>{
+    try {
+        // mutations
+    } catch (error) {
+        console.log("Error", error)
+    }
+}
+
+
+export const signUp = async (userData: SignUpParams) =>{
+    try {
+        
+    } catch (error) {
+        console.log("Error", error)
+    }
+}
