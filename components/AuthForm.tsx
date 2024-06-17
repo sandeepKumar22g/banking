@@ -12,15 +12,17 @@ import { Button } from '@/components/ui/button'
 import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/router'
-import { signIn, signUp } from '@/lib/actions/users.actions'
+import { useRouter } from 'next/navigation'
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/users.actions'
 
 
 
-const AuthForm = ({ type }: { type: string }) => {
+const AuthForm = async ({ type }: { type: string }) => {
     const router = useRouter();
     const [user, setUser] = useState()
     const [isLoading, setIsLoading] = useState(false)
+    const loggedInUser = await getLoggedInUser();
+  
 
     const formSchema = authFormSchema(type)
 
@@ -57,7 +59,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
                 const newUser = await signUp(userData)
 
-                // setUser(newUser)
+                setUser(newUser)
             }
 
             if(type === "sign-in"){
