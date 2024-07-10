@@ -6,8 +6,7 @@ import React, { useState } from 'react'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from '@/components/ui/input'
+import { Form } from "@/components/ui/form"
 import { Button } from '@/components/ui/button'
 import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
@@ -17,11 +16,11 @@ import { getLoggedInUser, signIn, signUp } from '@/lib/actions/users.actions'
 
 
 
-const AuthForm = async ({ type }: { type: string }) => {
+const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter();
     const [user, setUser] = useState()
     const [isLoading, setIsLoading] = useState(false)
-    const loggedInUser = await getLoggedInUser();
+    // const loggedInUser = await getLoggedInUser();
   
 
     const formSchema = authFormSchema(type)
@@ -36,12 +35,9 @@ const AuthForm = async ({ type }: { type: string }) => {
 
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         setIsLoading(true)
 
         try {
-            // sign up with app write & plain link
 
             if(type === "sign-up"){
                 const userData = {
@@ -63,12 +59,12 @@ const AuthForm = async ({ type }: { type: string }) => {
             }
 
             if(type === "sign-in"){
-                // const response = await signIn({
-                //     email: data.email,
-                //     password: data.password,
-                // })
+                const response = await signIn({
+                    email: data.email,
+                    password: data.password,
+                })
         
-                // if(response) router.push('/')
+                if(response) router.push('/')
             }
 
 
