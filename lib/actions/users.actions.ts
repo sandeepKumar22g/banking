@@ -7,6 +7,9 @@ import { encryptId, parseStringify } from "../utils";
 import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestProcessorEnum, Products } from "plaid";
 import { plaidClient } from "../plaid";
 import { revalidatePath } from "next/cache";
+import { addFundingSource } from "./dwolla.actions";
+
+const {APPWRITE_DATABASE_ID: DATABASE_ID, APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID, APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID} = process.env
 
 export const signIn = async ({email, password}:signInProps) =>{
     try {
@@ -88,6 +91,20 @@ export const createLinkToken = async (user: User) =>{
     }
 }
 
+export const createBankAccount = async({userId, bankId, accountId, accessToken, fundingSourceUrl, sharableId}: createBankAccountProps) =>{
+    try {
+        const {database} = await createAdminClient();
+
+        const bankAccount = await database.createDocument(DATABASE_ID!, BANK_COLLECTION_ID!, ID.unique(), {
+            userId, bankId, accountId, accessToken, fundingSourceUrl, sharableId
+        })
+
+        return parseStringify(bankAccount)
+    } catch (error) {
+        console.log(error, "create bank account error")
+    }
+}
+
 export const exchangePublicToken = async({publicToken, user}: exchangePublicTokenProps) =>{
     try {
         const response = await plaidClient.itemPublicTokenExchange({
@@ -117,7 +134,7 @@ export const exchangePublicToken = async({publicToken, user}: exchangePublicToke
         const fundingSourceUrl = await addFundingSource({
             dwollaCustomerId: user.dwollaCustomerId,
             processorToken,
-            bannkName: accountData.name
+            bankName: accountData.name
         })
 
         if(!fundingSourceUrl) throw Error;
