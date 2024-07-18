@@ -38,7 +38,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
     return (
         <>
             {variant === "primary" ?
-                (<Button onClick={()=>open} disabled={!ready} className='plaidlink-primary'>Connect bank</Button>)
+                (<Button onClick={()=>open()} disabled={!ready} className='plaidlink-primary'>Connect bank</Button>)
                 : variant === "ghost" ? 
                 (<Button>Connect Bank</Button>)
                 : (<Button>Connect Bank</Button>)
