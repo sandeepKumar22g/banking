@@ -6,7 +6,7 @@ import React from 'react'
 const BankCard = ({account, userName, showBalance=true}: CreditCardProps) => {
   return (
     <div className='flex flex-col'>
-        <Link href={"/"} className='bank-card'>
+        <Link href={"/"} className='bank-card min-w-[325px]'>
             <div className='bank-card_content'>
                 <div className=''>
                     <h1 className='text-16 font-semibold text-white'>{userName}</h1>
