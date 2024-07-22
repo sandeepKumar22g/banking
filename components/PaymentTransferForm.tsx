@@ -59,6 +59,8 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
       });
       const senderBank = await getBank({ documentId: data.senderBank });
 
+      console.log(receiverBank, "lets see", receiverAccountId)
+
       const transferParams = {
         sourceFundingSourceUrl: senderBank.fundingSourceUrl,
         destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
@@ -80,7 +82,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
         };
 
         const newTransaction = await createTransaction(transaction);
-
+        console.log("lets see", newTransaction)
         if (newTransaction) {
           form.reset();
           router.push("/");
